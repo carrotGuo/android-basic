@@ -1,4 +1,3 @@
-# Android中的MVP
 
 ## 概述
 > MVP模式解决了以往MVC模式中，View与Model耦合度较高的问题，通过在Model和View之间架上一个Presenter桥梁，将主要逻辑操作从View层转移到Presenter层，同时减少view层代码，也可实现presenter中逻辑复用；
