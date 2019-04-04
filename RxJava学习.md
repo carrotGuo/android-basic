@@ -96,9 +96,9 @@ Observable.just("hello world")
             }
         });
 ```
-==just()== 是Observeble，将事件提交到流中，作为上游；     
-==Consumer==、==Action==等参数是Observer,是下游，可以在某个时刻响应Observable，在不同线程中执行任务，非阻塞；      
-==subscribe()== 作为连接线，将observable和observer进行连接，使上下游实现链式调用。     
+just() 是Observeble，将事件提交到流中，作为上游；     
+Consumer、Action等参数是Observer,是下游，可以在某个时刻响应Observable，在不同线程中执行任务，非阻塞；      
+subscribe() 作为连接线，将observable和observer进行连接，使上下游实现链式调用。     
 - ##### Consumer和Action的区别
 Consumer:单一参数类型；     
 Action：无参数类型；
@@ -198,7 +198,7 @@ Observable.just(1, 2, 3, 4)
 > 对序列中的事件对象，或整个事件序列进行处理，转换成不同的事件序列;
 
 - #### map()
-主要将==一个==对象转换为另外==一个==对象
+主要将一个对象转换为另外一个对象
 ```
 Observable.just("images/logo.png") // 输入类型 String
     .map(new Func1<String, Bitmap>() {
