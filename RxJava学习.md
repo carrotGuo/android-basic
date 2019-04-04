@@ -1,13 +1,13 @@
 > RxJava的好处在于，随着程序逻辑变得越来越复杂，它依然能够保持简洁。
 
-## RxJava的设计模式
+# RxJava的设计模式
 RxJava采用的是设计者模式，被观察者是Observable，观察者是Observer，被观察者会在一个序列中发送一系列消息，而Observer(观察者)会订阅（注册）被观察者(Observable)，并且观察者会对来自被观察者的一系列消息进行处理。一般来说，Observable会通过调用onNext()、onError()、onCompleted()通知观察者。
 
-## 五种观察者模式
+# 五种观察者模式
 ![](https://note.youdao.com/yws/public/resource/4fbcae57ed9c225f22300c9968c9ee8b/xmlnote/418C52BBD83F41DEA560DA96DFB446C8/15676)
 
 
-## RxJava的四个基本概念
+# RxJava的四个基本概念
 - #### Observable(被观察者)      
 被观察者，决定什么时候触发事件和触发什么事件；
 ```
@@ -56,7 +56,7 @@ observable.subscribe(observer);
 
 - #### 事件
 
-## RxJava几个重要方法
+# RxJava几个重要方法
 - onNext()      
 当有一条消息发出时调用，序列中每发出一个事件就调用一次onNext();
 
@@ -72,7 +72,7 @@ observable.subscribe(observer);
 - unSubscribe()         
 用于让观察者解除与被观察者的订阅，防止内存泄露，在onPause()或onStop()中调用；（Subscriber才有的方法）
 
-## Observable、Observer设计模式
+# Observable/Observer设计模式
 - #### 使用三步骤
 1. 创建Observable：被观察者;
 2. 创建Observer：观察者;
@@ -173,7 +173,7 @@ observable.subscribe(onNextAction, onErrorAction);
 observable.subscribe(onNextAction, onErrorAction, onCompletedAction);
 ```
 
-## 线程切换
+# 线程切换
 #### 两次切换
 一般subscribeOn()指定Observable的OnSubscribe执行的线程，即触发事件所在线程，OnSubscribe中保存一个订阅者表，用于调用订阅者的几个主要方法；observeOn()方法是observer收到事件并做相应处理的所在线程；
 ```
@@ -194,7 +194,7 @@ Observable.just(1, 2, 3, 4)
 #### doOnSubscribe()
 由于observable触发事件是异步的，一般不在主线程，而subscriber.onStart()方法是在订阅时触发，此时事件还未触发，适合用于处理一些事件处理前的操作，但非常遗憾的是这个方法运行在subscribe()所在线程，可能不在主线程，不能刷新ui。此时我们可以使用Observable.doOnSubscribe()方法，这个方法会在订阅后被调用，在observable触发事件前调用，在其中执行ui操作，在这个方法调用后调用subscribeOn(AndroidSchedulers.mainThread()),这样Observable.doOnSubscribe()就可以运行在主线程，并且与这个observable调用了几次subscribeOn()无关，都会生效。
 
-## 变换
+# 变换
 > 对序列中的事件对象，或整个事件序列进行处理，转换成不同的事件序列;
 
 - #### map()
