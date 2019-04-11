@@ -1,4 +1,4 @@
-<a href=”#通过沙拉制作演示@Inject、@Module、@Component、@Provides注解的作用”>注解</a>
+[toc]
 
 > Dragger2是一个适用于Android的**依赖注入**框架，那么依赖注入又是什么呢？依赖注入是用于在目标类中初始化成员变量实例的一种方法，不需要手动编码实例化一个成员变量对象，而是将其他类已经初始化好的实例注入到目标类中。
 
@@ -145,7 +145,7 @@ public class SalaDemo {
 
 #### 2. 注入对象有参构造函数的情况
 上面的实例没有任何问题，但是当某一个注入对象需要构造函数怎么解决呢？假设现在我们多了一个橘子，橘子需要用刀切，橘子的构造方法需要一个刀的参数。
-- 橘子类（带参构造函数）
+- **橘子类（带参构造函数）**
 ```
 public class Orange {
     private Knife mKnife;
@@ -157,7 +157,7 @@ public class Orange {
 }
 ```
 
-- 水果刀类
+- **水果刀类**
 ```
 public class Knife {
     public static int id = 1;
@@ -169,7 +169,7 @@ public class Knife {
     }
 }
 ```
-#### 让Module工厂类提供刀子和橘子
+-  **让Module工厂类提供刀子和橘子**
 ```
 @Module
 public class SalaModule {
@@ -221,9 +221,9 @@ public class SalaDemo {
 ```
 对象注入确实没有问题了，可是我们平时使用需要注意，注入的对象不是单例，这里生成了两把水果刀。
 
-# 三、  @Qualifier
+# 三、 @Qualifier
 > 很多情况下，一个类的构造函数不止一个，那么这是时候使用注解怎么区分注入使用哪个构造方法构造的对象呢？这时候@Qualifier限定符就派上用场了，自定义一个@Qualifier就可以对注入哪个构造函数构造的对象进行标注。
-- #### 香蕉类修改为两种构造方式
+-  **香蕉类修改为两种构造方式**
 ```
 public class Banana {
 
@@ -241,7 +241,7 @@ public class Banana {
 ```
 注意：这个时候就不要对构造函数进行@Inject标注了。
 
-- #### 自定义限定符Type，限定方式是String类型
+- **自定义限定符Type，限定方式是String类型**
 ```
 @Qualifier//限定符
 @Documented
@@ -251,7 +251,8 @@ public @interface Type {
 }
 ```
 自定义一个限定符@Type,这样我们可以使用@Type区分注入哪个构造函数构造的对象
-- #### 在Module中实例化两个Banana,并且使用@Type区分
+- **在Module中实例化两个Banana,并且使用@Type区分**
+
 注意，这里方法名也不可以是一样的.
 ```
 @Module
@@ -269,7 +270,7 @@ public class SalaModule {
     }
 }
 ```
-- #### 在Component中与Module进行对接，生成实例的方法也要标记Type
+- **在Component中与Module进行对接，生成实例的方法也要标记Type**
 ```
 @Component(modules = {SalaModule.class})
 public interface SalaComponent {
@@ -293,7 +294,7 @@ public interface SalaComponent {
 
 # 四、 实现全局单例的@Singleton
 Dagger支持单例，@Singleton可以实现全局单例，即整个app内，只有一个这样的对象存在，接下来看看如何实现的。对于@Singleton的例子，我们假设只有全局我们只需要一把刀切水果
-- #### 在Module中标注单例
+- **在Module中标注单例**
 ```
 @Module
 public class SalaModule {
@@ -305,7 +306,7 @@ public class SalaModule {
     }
 }
 ```
-- #### 在component中标注有实例是单例
+- **在component中标注有实例是单例**
 ```
 public interface SalaComponent {
     //会与Module对接，返回水果刀实例
@@ -318,12 +319,12 @@ public interface SalaComponent {
 # 五、 实现区域单例@Scope
 从接下来我们当做之前的水果沙拉没发生过。但是接下来我们依然是做水果沙拉，要求是这样的，香蕉和苹果用同一把刀切，橘子用另外一把刀切。
 
-#### 分析
+- **分析**
 1. 香蕉和苹果的刀是局部单例，对于他们两个类来说是**单例**；
 2. 橘子的刀不能和香蕉苹果的一样，不需要**单例**；
 
 以上的需求要我们实现刀的局部单例。
-- #### 刀类
+- **刀类**
 ```
 public class Knife {
     private static int id = 1;
@@ -335,7 +336,8 @@ public class Knife {
 }
 ```
 只需要标注构造函数即可；
-- #### 自定义作用域
+- **自定义作用域**
+
 自定义作用域注解的标志是@KnifeScope
 ```
 //自定义一个作用域
@@ -345,7 +347,7 @@ public @interface KnifeScope {
 }
 ```
 
-- #### 提供局部单例的module
+- **提供局部单例的module**
 ```
 @Module
 public class KnifeModule {
@@ -359,7 +361,7 @@ public class KnifeModule {
 }
 ```
 使用@KnifeScope标注了刀的局部单例特性,使用标注后，从这个module获取的刀就是局部单例的，那怎么体现局部呢？看接下来的component。
-- #### 提供局部单例的Component
+- **提供局部单例的Component**
 ```
 //在Component上标记@KnifeScope,标志这个Conponent中共享一个单例
 @KnifeScope
@@ -375,7 +377,7 @@ public interface KnifeComponent {
 ```
 Component提供了knife的获取实例，同时标注只有那些类能够被注入，达到了单例作用范围约束的效果。
 
-- #### Component的初始化，必须提供一个单例的Component给其他对象
+- **Component的初始化，必须提供一个单例的Component给其他对象**
 ```
 public class DemoActivity extends AppCompatActivity {
     private static KnifeComponent knifeComponent;
@@ -401,7 +403,7 @@ public class DemoActivity extends AppCompatActivity {
 ```
 我们先创建一个component实例给苹果和香蕉类注入时使用。
 
-- #### 两个水果类（被注入类）
+- **两个水果类（被注入类）**
 ```
 public class Apple {
     @Inject
@@ -441,7 +443,7 @@ public class Banana {
 
 这时候橘子的刀去哪里获取呢，我们需要提供一个生成另外一把刀的Module和component。
 
-- #### 生成普通刀的Module和Component
+- **生成普通刀的Module和Component**
 ```
 @Module
 public class OtherKnifeModule {
@@ -460,7 +462,7 @@ public interface OtherKnifeComponent {
 }
 ```
 
-- #### Orange中注入Knife
+- **Orange中注入Knife**
 ```
 public class Orange {
     @Inject
@@ -480,7 +482,7 @@ public class Orange {
 ```
 此时，橘子也注入了knife的实例，但是这个knife和香蕉苹果的刀不是同一个对象。
 
-#### 效果演示
+- **效果演示**
 ```
 public class DemoActivity extends AppCompatActivity {
     private static KnifeComponent knifeComponent;
@@ -535,7 +537,7 @@ public class DemoActivity extends AppCompatActivity {
 
 # 六、 Component间的依赖
 >加入现在在其他一个module和Component中已经完成了土豆的依赖提供，这时候就不需要再SalaComponent中再重新做这些操作了，直接让SalaComponent去依赖另外一个Component即可。
-- #### Potato类
+- **Potato类**
 ```
 public class Potato {
     @Inject
@@ -544,7 +546,7 @@ public class Potato {
     }
 }
 ```
-- #### 之前已经存在的module和component
+- **之前已经存在的module和component**
 ```
 @Module
 public class PotatoModule {
@@ -573,7 +575,7 @@ public interface FruitComponent {
     void inject(DemoActivity activity);
 }
 ```
-- #### 在需要注入的类中添加Component的创建及依赖
+- **在需要注入的类中添加Component的创建及依赖**
 ```
 //创建PotatoComponent
 PotatoComponent potatoComponent = DaggerPotatoComponent
