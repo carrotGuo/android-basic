@@ -1,4 +1,3 @@
-[Hello](#一、为什么要用依赖注入)
 
 > Dragger2是一个适用于Android的**依赖注入**框架，那么依赖注入又是什么呢？依赖注入是用于在目标类中初始化成员变量实例的一种方法，不需要手动编码实例化一个成员变量对象，而是将其他类已经初始化好的实例注入到目标类中。
 
@@ -607,3 +606,7 @@ Provider<Banana> mBanana;
 //如何获取apple实例
 Apple mApple = mLazyApple.get();
 ```
+
+> 文章参考自下方链接        
+Dagger 2从浅到深(一)：https://blog.csdn.net/io_field/article/details/70947365       
+“一盘沙拉”带你入门Dagger2（一）之HelloWorld：https://blog.csdn.net/android_study_ok/article/details/52384247
